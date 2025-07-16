@@ -32,6 +32,8 @@ class DevelopmentConfig(Config):
 class ProductionConfig(Config):
     """Production configuration"""
     DEBUG = False
+    # Use PORT environment variable for Render deployment
+    PORT = int(os.environ.get('PORT', 5000))
     
 # Configuration mapping
 config = {

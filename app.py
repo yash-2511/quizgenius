@@ -14,7 +14,8 @@ from file_processor import extract_text_from_file
 from gemini_service import generate_quiz_from_text
 
 # Configure logging
-logging.basicConfig(level=logging.DEBUG)
+log_level = logging.DEBUG if os.environ.get('FLASK_ENV', 'development') == 'development' else logging.INFO
+logging.basicConfig(level=log_level)
 logger = logging.getLogger(__name__)
 
 def create_app(config_name='default'):
@@ -49,6 +50,15 @@ def allowed_file(filename):
 def index():
     """Render the main page"""
     return render_template('index.html')
+
+@app.route('/health')
+def health_check():
+    """Health check endpoint for monitoring"""
+    return jsonify({
+        'status': 'healthy',
+        'service': 'AI Quiz Generator',
+        'version': '1.0.0'
+    })
 
 @app.route('/upload', methods=['POST'])
 def upload_file():

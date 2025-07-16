@@ -196,6 +196,51 @@ ai-quiz-generator/
 4. Test thoroughly
 5. Submit a pull request
 
+## Deployment to Render
+
+This project is ready for deployment to Render with all necessary configuration files included.
+
+### Quick Deployment Steps
+
+1. **Push to GitHub**:
+   ```bash
+   git init
+   git add .
+   git commit -m "Initial commit"
+   git remote add origin https://github.com/yourusername/ai-quiz-generator.git
+   git push -u origin main
+   ```
+
+2. **Deploy to Render**:
+   - Go to [render.com](https://render.com) and sign up/login
+   - Click "New +" → "Web Service"
+   - Connect your GitHub repository
+   - Configure:
+     - Build Command: `pip install -r render_requirements.txt`
+     - Start Command: `gunicorn --bind 0.0.0.0:$PORT --workers 1 --timeout 0 main:app`
+
+3. **Set Environment Variables**:
+   ```
+   GEMINI_API_KEY = your_gemini_api_key_here
+   FLASK_ENV = production
+   FLASK_DEBUG = false
+   SESSION_SECRET = your_secure_random_string_here
+   ```
+
+4. **Test Deployment**:
+   ```bash
+   python test_deployment.py https://your-app.onrender.com
+   ```
+
+### Deployment Files
+
+- `render_requirements.txt` - Production dependencies
+- `Procfile` - Render startup command
+- `render.yaml` - Infrastructure as code configuration
+- `runtime.txt` - Python version specification
+- `test_deployment.py` - Deployment verification script
+- `deploy_guide.md` - Detailed deployment instructions
+
 ## License
 
 This project is open source and available under the MIT License.
