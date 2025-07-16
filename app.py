@@ -7,6 +7,9 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 import json
 from datetime import datetime
 
+# Import configuration
+from config import config
+
 from file_processor import extract_text_from_file
 from gemini_service import generate_quiz_from_text
 
@@ -14,24 +17,24 @@ from gemini_service import generate_quiz_from_text
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
-# Create Flask app
-app = Flask(__name__)
-app.secret_key = os.environ.get("SESSION_SECRET", "dev-secret-key")
-app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
+def create_app(config_name='default'):
+    """Application factory pattern"""
+    app = Flask(__name__)
+    
+    # Load configuration
+    app.config.from_object(config[config_name])
+    
+    # Set up proxy fix for deployment
+    app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
+    
+    # Enable CORS
+    CORS(app)
+    
+    return app
 
-# Enable CORS
-CORS(app)
-
-# Configure file uploads
-UPLOAD_FOLDER = 'uploads'
-ALLOWED_EXTENSIONS = {'pdf', 'docx'}
-MAX_CONTENT_LENGTH = 16 * 1024 * 1024  # 16MB max file size
-
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.config['MAX_CONTENT_LENGTH'] = MAX_CONTENT_LENGTH
-
-# Ensure upload directory exists
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+# Create app instance
+config_name = os.environ.get('FLASK_ENV', 'development')
+app = create_app(config_name)
 
 # In-memory storage for MVP
 quiz_storage = {}
@@ -40,7 +43,7 @@ file_storage = {}
 def allowed_file(filename):
     """Check if file extension is allowed"""
     return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+           filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
 
 @app.route('/')
 def index():
@@ -69,7 +72,7 @@ def upload_file():
         filename = secure_filename(file.filename)
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         unique_filename = f"{timestamp}_{filename}"
-        file_path = os.path.join(app.config['UPLOAD_FOLDER'], unique_filename)
+        file_path = os.path.join(str(app.config['UPLOAD_FOLDER']), unique_filename)
         file.save(file_path)
         
         logger.info(f"File saved: {file_path}")

@@ -138,7 +138,7 @@ class QuizGenerator {
 
         } catch (error) {
             console.error('Upload error:', error);
-            this.showError(error.message);
+            this.showError(error.message || 'An error occurred during upload');
             this.hideProgress();
         }
     }

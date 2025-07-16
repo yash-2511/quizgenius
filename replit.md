@@ -110,3 +110,14 @@ The application follows a traditional client-server architecture with a Flask ba
 4. **Single-Page Application**: Provides smooth user experience without page reloads
 5. **Bootstrap Integration**: Rapid UI development with consistent dark theme
 6. **Flask Framework**: Lightweight, flexible framework suitable for the application's scope
+7. **Configuration Management**: Centralized config system supporting development/production environments
+8. **Local Development Setup**: Automated setup scripts and environment management for easy local deployment
+
+### Recent Changes (July 16, 2025)
+
+- **Added Configuration System**: Created `config.py` with environment-based configuration management
+- **Local Development Support**: Added `run_local.py` for easy local server startup with environment setup
+- **Setup Automation**: Created `local_setup.py` script for automated dependency installation and directory creation  
+- **Enhanced Documentation**: Updated README.md with comprehensive local setup instructions and troubleshooting
+- **Improved Error Handling**: Fixed JavaScript error handling for better user feedback
+- **Environment Management**: Enhanced .env file support with automatic loading and validation
