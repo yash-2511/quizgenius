@@ -1,0 +1,19 @@
+[project]
+name = "ai-quiz-generator"
+version = "1.0.0"
+description = "AI-powered quiz generator that extracts text from documents and creates interactive quizzes"
+requires-python = ">=3.11"
+dependencies = [
+    "flask==3.0.0",
+    "flask-cors==4.0.0",
+    "google-genai==0.8.0",
+    "gunicorn==23.0.0",
+    "pymupdf==1.23.14",
+    "python-docx==1.1.0",
+    "pydantic==2.5.2",
+    "werkzeug==3.0.1",
+]
+
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
