@@ -20,7 +20,7 @@ class Config:
     ALLOWED_EXTENSIONS = {'pdf', 'docx'}
     
     # API settings
-    GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY')
+    # GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY')
     
     # Create upload directory if it doesn't exist
     UPLOAD_FOLDER.mkdir(exist_ok=True)
