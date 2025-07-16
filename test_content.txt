@@ -1,1 +1,0 @@
-This is a test document for quiz generation. Machine learning is a subset of artificial intelligence that focuses on algorithms and statistical models. Neural networks are computing systems inspired by biological neural networks. Deep learning uses multiple layers of neural networks to process data.
